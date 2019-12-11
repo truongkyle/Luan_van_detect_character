@@ -101,14 +101,18 @@ def plate_segmentation(img_file_path):
     contours, hierarchy = cv2.findContours(th3, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
     # sort contours
-    contours = sorted(contours, key=cv2.contourArea, reverse=True)
+#     contours = sorted(contours, key=cv2.contourArea, reverse=True)
 
     cropped = []
     for cnt in contours:
         (x,y,w,h) = cv2.boundingRect(cnt)
-
-
-        if (w * h > area_condition1 and w * h < area_condition2 and w/h > 0.3 and h/w > 0.3):
+        
+        character_dimensions = (0.35*height, 0.5*height, 0.1*width, 0.15*width)
+        min_heigth, max_height, min_width, max_width = character_dimensions
+        print()
+#         if (w * h > area_condition1 and w * h < area_condition2 and w/h > 0.3 and h/w > 0.3):
+        if(h <= max_height and h >= min_heigth):
+            print("aaaaa")
             cv2.drawContours(img, [cnt], 0, (0, 255, 0), 3)
             cv2.rectangle(img, (x,y), (x+w,y+h), (255, 0, 0), 2)
             c = th2[y:y+h,x:x+w]
